@@ -18,5 +18,6 @@ public class LoginResponseDTO {
         this.user = user;
         this.token = token;
     }
+
 }
 

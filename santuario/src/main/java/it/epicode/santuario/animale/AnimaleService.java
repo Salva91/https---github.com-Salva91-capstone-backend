@@ -1,6 +1,6 @@
 package it.epicode.santuario.animale;
 
-import it.epicode.santuario.cloudinaryconfig.CloudinaryService;
+
 import it.epicode.santuario.utente.Utente;
 import it.epicode.santuario.utente.UtenteRepository;
 import it.epicode.santuario.utente.UtenteSummaryDTO;
@@ -25,7 +25,7 @@ public class AnimaleService {
     private final AnimaleRepository animaleRepository;
     private final UtenteRepository utenteRepository;
     private final VaccinazioneRepository vaccinazioneRepository;
-    private final CloudinaryService cloudinaryService;
+
 
     // POST
     @Transactional

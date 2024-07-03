@@ -80,10 +80,11 @@ public class UtenteController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Validated LoginModel model, BindingResult validator) {
         if (validator.hasErrors()) {
-            throw new ApiValidationException(validator.getAllErrors());
+            throw  new ApiValidationException(validator.getAllErrors());
         }
-        return ResponseEntity.ok(utenteService.login(model.getUsername(), model.getPassword()).orElseThrow());
+        return new ResponseEntity<>(utenteService.login(model.username(), model.password()).orElseThrow(), HttpStatus.OK);
     }
+
 
 
 
