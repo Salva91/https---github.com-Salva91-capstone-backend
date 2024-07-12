@@ -71,6 +71,30 @@ public class AdoptionRequestService {
 
         return "L'animale è stato adottato con successo.";
     }
+
+
+    @Transactional
+    public String adottareAnimale(Long animaleId, Utente utente) {
+        Optional<Animale> optionalAnimale = animaleRepository.findById(animaleId);
+        if (optionalAnimale.isEmpty()) {
+            return "Animale non trovato.";
+        }
+
+        Animale animale = optionalAnimale.get();
+        if (animale.getAdoptionStatus() != Animale.AdoptionStatus.DISPONIBILE) {
+            return "L'animale non è disponibile per l'adozione.";
+        }
+
+        // Associa l'animale all'utente
+        animale.setProprietario(utente);
+
+        // Imposta lo stato di adozione dell'animale
+        animale.setAdoptionStatus(Animale.AdoptionStatus.ADOTTATO);
+        animaleRepository.save(animale);
+
+        return "L'animale è stato adottato con successo.";
+    }
+
         }
 
 

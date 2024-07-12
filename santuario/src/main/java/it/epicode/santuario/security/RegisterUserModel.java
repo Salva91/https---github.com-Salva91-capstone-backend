@@ -8,9 +8,9 @@ import jakarta.validation.constraints.Size;
 public record RegisterUserModel(
 
         @NotBlank(message = "Il tuo nome non può essere vuoto")
-        String firstName,
+        String nome,
         @NotBlank(message = "Il tuo cognome non può essere vuoto")
-        String lastName,
+        String cognome,
         @NotBlank(message = "Lo username  non può contenere solo spazi vuoti")
         @Size(max = 50, message ="Il tuo username è troppo lungo max 50 caratteri")
         String username,

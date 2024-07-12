@@ -12,17 +12,17 @@ import java.util.List;
 @Component
 public class RegisteredUserDTO {
     Long id;
-    String name;
-    String surname;
+    String nome;
+    String cognome;
     String username;
     String email;
     private List<Roles> roles;
 
     @Builder(setterPrefix = "with")
-    public RegisteredUserDTO(Long id, String name, String surname, String username, String email, List<Roles> roles) {
+    public RegisteredUserDTO(Long id, String nome, String cognome, String username, String email, List<Roles> roles) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
+        this.nome = nome;
+        this.cognome = cognome;
         this.username = username;
         this.email = email;
         this.roles = roles;

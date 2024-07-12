@@ -54,6 +54,9 @@ public class UtenteService {
     //POST per la creazione dell'utente (verificando se già esiste altrimeti me lo crea nella repo)
     @Transactional
     public UtenteResponseDTO createUtente(UtenteRequestDTO utenteRequestDTO) {
+        if (utenteRequestDTO == null) {
+            throw new IllegalArgumentException("L'utente non può essere nullo");
+        }
         if (utenteRepository.existsByRecapitoTelefonicoAndNomeAndCognome(utenteRequestDTO.getRecapitoTelefonico(), utenteRequestDTO.getNome(), utenteRequestDTO.getCognome())) {
             throw new EntityExistsException("L'utente esiste gia' ");
         }
@@ -70,6 +73,9 @@ public class UtenteService {
     //put per la modifica dei dati dell'utente
 
     public UtenteResponseDTO modifyUtente(Long id, UtenteRequestDTO utenteRequestDTO) {
+        if (utenteRequestDTO == null) {
+            throw new IllegalArgumentException("L'utente non può essere nullo");
+        }
         // Questo metodo modifica un entity esistente.
         // Prima verifica se l'entity esiste nel database. Se non esiste, viene generata un'eccezione.
         if (!utenteRepository.existsById(id)) {
@@ -148,6 +154,9 @@ public class UtenteService {
     }
 
     public UtenteRequestSecurityDTO register(UtenteRequestSecurityDTO register){
+        if (register == null) {
+            throw new IllegalArgumentException("L'utente non può essere nullo");
+        }
         if(utenteRepository.existsByUsername(register.getUsername())){
             throw new EntityExistsException("Utente gia' esistente");
         }
@@ -165,14 +174,20 @@ public class UtenteService {
         Utente u = new Utente();
         BeanUtils.copyProperties(register, u);
         u.setPassword(encoder.encode(register.getPassword()));
-        Domicilio domicilio = new Domicilio();
-        BeanUtils.copyProperties(register.getDomicilio(), domicilio);
-        u.setDomicilio(domicilio);
+        if (register.getDomicilio() != null) {
+            Domicilio domicilio = new Domicilio();
+            BeanUtils.copyProperties(register.getDomicilio(), domicilio);
+            u.setDomicilio(domicilio);
+        } else {
+            // Gestire il caso in cui il domicilio non sia fornito
+            u.setDomicilio(null); // O impostare un valore predefinito se necessario
+        }
 
 // Inizializza la lista dei ruoli se è null
         if (u.getRoles() == null) {
             u.setRoles(new ArrayList<>());
         }
+
         u.getRoles().add(roles); // Aggiungi il ruolo alla lista dei ruoli
 
         utenteRepository.save(u);
@@ -221,8 +236,8 @@ public class UtenteService {
         userDto.setEmail(userDetails.getEmail());
         userDto.setRoles(userDetails.getRoles());
         userDto.setUsername(userDetails.getUsername());
-        userDto.setName(userDetails.getName());
-        userDto.setSurname(userDetails.getSurname());
+        userDto.setNome(userDetails.getName());
+        userDto.setCognome(userDetails.getSurname());
         // Aggiungi altri campi se necessario
 
         return userDto;

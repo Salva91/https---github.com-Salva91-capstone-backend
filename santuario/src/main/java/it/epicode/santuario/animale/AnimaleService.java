@@ -4,9 +4,7 @@ package it.epicode.santuario.animale;
 import it.epicode.santuario.utente.Utente;
 import it.epicode.santuario.utente.UtenteRepository;
 import it.epicode.santuario.utente.UtenteSummaryDTO;
-import it.epicode.santuario.vaccinazione.Vaccinazione;
-import it.epicode.santuario.vaccinazione.VaccinazioneRepository;
-import it.epicode.santuario.vaccinazione.VaccinazioneResponseDTO;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class AnimaleService {
 
     private final AnimaleRepository animaleRepository;
     private final UtenteRepository utenteRepository;
-    private final VaccinazioneRepository vaccinazioneRepository;
+
 
 
     // POST
@@ -64,6 +63,11 @@ public class AnimaleService {
         animaleRepository.save(animale);
         return convertToDTO(animale);
     }
+
+    public List<Animale> findByTipo(Animale.TipoAnimale tipo) {
+        return animaleRepository.findByTipo(tipo);
+    }
+
 
     // GET
     public List<AnimaleResponseDTO> findAll() {
@@ -124,41 +128,24 @@ public class AnimaleService {
         BeanUtils.copyProperties(animale, animaleResponseDTO);
 
         // Converti le vaccinazioni in DTO
-      //  List<VaccinazioneResponseDTO> vaccinazioniDTO = animale.getVaccinazioni().stream()
-              //  .map(this::convertVaccinazioneToDTO)
-               // .collect(Collectors.toList());
+        //  List<VaccinazioneResponseDTO> vaccinazioniDTO = animale.getVaccinazioni().stream()
+        //  .map(this::convertVaccinazioneToDTO)
+        // .collect(Collectors.toList());
 
-       // animaleResponseDTO.setVaccinazioni(vaccinazioniDTO);
+        // animaleResponseDTO.setVaccinazioni(vaccinazioniDTO);
         return animaleResponseDTO;
     }
 
 
-    private VaccinazioneResponseDTO convertVaccinazioneToDTO(Vaccinazione vaccinazione) {
-        VaccinazioneResponseDTO dto = new VaccinazioneResponseDTO();
-        BeanUtils.copyProperties(vaccinazione, dto);
-        return dto;
-    }
 
     // ricerca per nome dell'animale
     public List<Animale> findByNome(Animale animale) {
         return animaleRepository.findByNome(animale.getNome());
     }
 
-  //  public AnimaleResponseRidottoDTO getAnimaleDetaiSenzaProprietariolById(Long id) {
-      //  Animale animale = animaleRepository.findById(id)
-              //  .orElseThrow(() -> new EntityNotFoundException("Animale non trovato"));
-
-      //  AnimaleResponseRidottoDTO response = new AnimaleResponseRidottoDTO();
-       // BeanUtils.copyProperties(animale, response);
-
-
-        // Popolare le vaccinazioni se presenti
-       // List<VaccinazioneResponseDTO> vaccinazioniDTO = animale.getVaccinazioni().stream()
-               // .map(this::convertVaccinazioneToDTO)
-              //  .collect(Collectors.toList());
-       // response.setVaccinazioni(vaccinazioniDTO);
-
-       // return response;
+    public Optional<Animale> getAnimaleById(Long id) {
+        return animaleRepository.findById(id);
+    }
 
 
     @Transactional
@@ -176,9 +163,11 @@ public class AnimaleService {
             animale.setMantello(animaleRequestDTO.getMantello());
         }
 
-        // Aggiornamento della data di nascita se presente nel payload della richiesta
-        if (animaleRequestDTO.getDataNascita() != null) {
-            animale.setDataNascita(animaleRequestDTO.getDataNascita());
+
+
+
+        if (animaleRequestDTO.getDescrizione() != null){
+            animale.setDescrizione(animaleRequestDTO.getDescrizione());
         }
 
         // Aggiornamento dello stato di salute se presente nel payload della richiesta

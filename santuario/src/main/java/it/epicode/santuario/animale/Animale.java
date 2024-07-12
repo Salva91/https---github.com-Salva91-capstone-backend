@@ -2,7 +2,6 @@ package it.epicode.santuario.animale;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.epicode.santuario.utente.Utente;
-import it.epicode.santuario.vaccinazione.Vaccinazione;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +28,10 @@ public class Animale {
     private String fotoUrl;
 
     @Column(nullable = false)
-    private LocalDate dataNascita;
+    private LocalDate anni;
+    @Column (nullable = true)
+
+    private String Descrizione;
 
     @Column(length = 200, nullable = false)
     private String statoSalute;
@@ -42,11 +44,6 @@ public class Animale {
 
     @Column(nullable = false)
     private boolean sterilizzato;
-
-
-    @ManyToMany(mappedBy = "animali", cascade = CascadeType.ALL)
-    @Column(nullable = true)
-    private List<Vaccinazione> vaccinazioni;
 
     @Column(nullable = false)
     private boolean microchip;

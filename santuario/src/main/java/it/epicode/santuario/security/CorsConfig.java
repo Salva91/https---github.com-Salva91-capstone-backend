@@ -9,20 +9,29 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
-    //PERSONALIZZIAMO IL CORSFILTER SECONDO LE NOSTRE ESIGENZE
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
-        //UNA VOLTA DEPLOYATO IL FRONTEND BISOGNA AGGIUNGERE L'ORIGIN DOVE E STATO FATTO IL DEPLOY
+
+        // Configura l'origine consentita (dove è hostato il tuo frontend Angular)
         configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedMethod("");
-        configuration.addAllowedHeader("");
+
+        // Configura i metodi HTTP consentiti globalmente
+        configuration.addAllowedMethod("*");
+
+        // Configura le intestazioni HTTP consentite globalmente
+        configuration.addAllowedHeader("*");
+
+        // Abilita l'invio di credenziali (se necessario, ad esempio se usi i cookie)
         configuration.setAllowCredentials(true);
 
-        // Setta i permessi per le richieste preflight (OPTIONS)
+        // Esponi l'intestazione Authorization
         configuration.addExposedHeader("Authorization");
-        configuration.setMaxAge(3600L); // Cache delle preflight per 1 ora
 
+        // Imposta la cache delle preflight per 1 ora (3600 secondi)
+        configuration.setMaxAge(3600L);
+
+        // Configura la source per tutte le richieste
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
 

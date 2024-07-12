@@ -51,7 +51,9 @@ public class Utente {
     @JsonManagedReference
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Animale> animaliGestiti;
+
     @ManyToMany(fetch = FetchType.EAGER)
+
     private List<Roles> roles = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package it.epicode.santuario.adoptionRequest;
 
+import it.epicode.santuario.utente.Utente;
 import it.epicode.santuario.utente.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +56,11 @@ public class AdoptionRequestController {
     @PostMapping("/adottare/{animaleId}/{utenteId}")
     public String adottareAnimale(@PathVariable Long animaleId, @PathVariable Long utenteId) {
         return adoptionRequestService.adottareAnimale(animaleId, utenteId);
+    }
+
+    @PostMapping("/adottare/{animaleId}")
+    public String adottareAnimale(@PathVariable Long animaleId, @RequestBody Utente utente) {
+        return adoptionRequestService.adottareAnimale(animaleId, utente);
     }
 
 }

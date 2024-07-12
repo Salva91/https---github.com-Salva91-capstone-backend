@@ -1,5 +1,6 @@
 package it.epicode.santuario.security;
 
+import it.epicode.santuario.domicilio.Domicilio;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +13,14 @@ import org.springframework.stereotype.Component;
 @Component
 
 public class RegisterUserDTO {
-    String firstName;
-    String lastName;
+    String nome;
+    String cognome;
     String username;
     String email;
     String password;
     String avatar;
+    Domicilio domicilio;
+
+    public RegisterUserDTO(String nome, String cognome, String username, String email, String password, String avatar) {
+    }
 }
